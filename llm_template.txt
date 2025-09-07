@@ -1,0 +1,66 @@
+You are an expert at analyzing and organizing browser bookmark collections. 
+
+I have a bookmark collection with the following folder structure showing all bookmark names with their GUIDs organized by folder. Please analyze the entire collection and create a completely new, optimally organized folder structure.
+
+# Current Complete Bookmark Tree:
+{folder_structure}
+
+# Analysis Request:
+Create an entirely new folder structure that optimally organizes all bookmarks based on:
+1. **Content themes and purposes** - Group related bookmarks together
+2. **Domain patterns** - Consider website domains for logical grouping  
+3. **Hierarchical organization** - Use parent/child folders for better navigation
+4. **Practical usability** - Make folders intuitive to find and browse
+5. **Concise naming** - Use short, clear folder names (1-3 words maximum) for better usability
+
+Analyze all bookmark titles, domains, and current folder context to determine the best organizational structure. You have complete freedom to redesign the folder hierarchy from scratch.
+
+# Response Format:
+Return a JSON object with this exact structure (use proper formatting with line breaks and indentation for readability):
+```json
+{
+  "folder_structure": {
+    "Development": {
+      "Frontend": {
+        "bookmark_guids": ["guid1", "guid2", "guid3"]
+      },
+      "Backend": {
+        "bookmark_guids": ["guid4", "guid5"]
+      },
+      "Tools": {
+        "bookmark_guids": ["guid6"]
+      }
+    },
+    "Research": {
+      "bookmark_guids": ["guid7", "guid8"]
+    },
+    "Entertainment": {
+      "Videos": {
+        "bookmark_guids": ["guid9"]
+      },
+      "bookmark_guids": ["guid10"]
+    }
+  }
+}
+```
+
+**CRITICAL REQUIREMENTS:**
+- **EVERY bookmark GUID from the input MUST appear exactly once in the output** - Do not skip any bookmarks
+- **Include ALL folders from the input**, even if they end up empty (use empty bookmark_guids array)  
+- **Account for every single bookmark** - The total count in your output must match the input exactly (1942 bookmarks)
+- **Double-check your work** - Verify that no bookmark GUIDs are missing from your folder_structure
+- **IMPORTANT**: This is a LARGE collection. You must provide the COMPLETE response with all 1942 bookmarks, not a partial response
+
+**Organization Guidelines:**
+- Use descriptive, clear folder names (1-3 words maximum)
+- Create logical hierarchies (2-3 levels deep maximum for usability)
+- Group similar content together even if currently in different folders
+- Consider both explicit topics and implicit patterns in bookmark titles/domains
+- Prefer concise, common names over verbose descriptions (e.g., "Dev Tools" not "Development and Programming Utilities")
+
+**Before submitting your response, verify:**
+1. Count all bookmark_guids in your output - does it match the input total?
+2. Are there any bookmark GUIDs from the input that you forgot to include?
+3. Did you create appropriate folders for all the different types of content?
+
+Focus on creating the most logical, discoverable organization possible while ensuring COMPLETE coverage of all bookmarks.

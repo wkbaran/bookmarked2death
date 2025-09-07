@@ -1,0 +1,1 @@
+- Do not use fallbacks. If dependencies are unavailable then fail fast and show a clear description of the problem to the user.
