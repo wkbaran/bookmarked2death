@@ -45,8 +45,9 @@ Return a JSON object with this exact structure (use proper formatting with line 
 ```
 
 **CRITICAL REQUIREMENTS:**
-- **EVERY bookmark GUID from the input MUST appear exactly once in the output** - Do not skip any bookmarks
-- **Include ALL folders from the input**, even if they end up empty (use empty bookmark_guids array)  
+- **EVERY bookmark GUID from the input MUST appear exactly once in the output**
+- DO NOT skip any bookmarks
+- DO NOT create any empty folders
 - **Account for every single bookmark** - The total count in your output must match the input exactly (1942 bookmarks)
 - **Double-check your work** - Verify that no bookmark GUIDs are missing from your folder_structure
 - **IMPORTANT**: This is a LARGE collection. You must provide the COMPLETE response with all 1942 bookmarks, not a partial response

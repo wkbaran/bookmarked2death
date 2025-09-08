@@ -1592,7 +1592,7 @@ def main():
                 'details': f'Based on sample, found {len(broken_links_sample)}/{min(25, len(bookmarks))} broken links'
             })
         
-        if llm_analysis['consolidation_suggestions']:
+        if llm_analysis.get('consolidation_suggestions'):
             proposed_actions.append({
                 'action': 'consolidate_semantic_folders',
                 'description': f'Consolidate {len(llm_analysis["consolidation_suggestions"])} sets of semantically similar folders',

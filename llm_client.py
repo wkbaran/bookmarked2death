@@ -452,6 +452,13 @@ class LLMClient:
                 self.logger.info(f"Successfully extracted JSON string ({len(json_str)} chars)")
                 self.logger.debug(f"Extracted JSON: {json_str}")
                 
+                # Check if JSON appears to be truncated
+                if not json_str.rstrip().endswith('}'):
+                    raise ValueError(f"JSON appears to be truncated (doesn't end with closing brace). Length: {len(json_str)} chars")
+                
+                # Try to repair common JSON issues
+                json_str = self._attempt_json_repair(json_str)
+                
                 result = json.loads(json_str)
                 self.logger.info("JSON parsing successful")
                 
@@ -570,6 +577,34 @@ class LLMClient:
             import traceback
             raise RuntimeError(f"Error processing LLM response: {e}\nTraceback: {traceback.format_exc()}")
     
+    def _attempt_json_repair(self, json_str: str) -> str:
+        """Attempt to repair common JSON formatting issues"""
+        if not json_str:
+            return json_str
+        
+        # Remove any trailing commas before closing braces/brackets
+        import re
+        # Fix trailing commas before closing brackets/braces
+        json_str = re.sub(r',(\s*[}\]])', r'\1', json_str)
+        
+        # Fix missing commas between array elements (common in truncated responses)
+        # This is more complex and risky, so we'll be conservative
+        lines = json_str.split('\n')
+        repaired_lines = []
+        
+        for i, line in enumerate(lines):
+            stripped = line.strip()
+            # If this line ends with a quote and the next line starts with a quote,
+            # and there's no comma, add one
+            if (i < len(lines) - 1 and 
+                stripped.endswith('"') and not stripped.endswith('",') and
+                lines[i + 1].strip().startswith('"')):
+                repaired_lines.append(line + ',')
+            else:
+                repaired_lines.append(line)
+        
+        return '\n'.join(repaired_lines)
+
     def _extract_all_guids(self, folder_structure: Dict, path: str = "") -> List[str]:
         """Recursively extract all bookmark GUIDs from folder structure"""
         all_guids = []
